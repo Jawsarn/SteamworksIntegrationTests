@@ -15,6 +15,7 @@ public class TestSteam : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        return;
         if (SteamManager.Initialized)
         {
             string name = SteamFriends.GetPersonaName();
@@ -31,22 +32,19 @@ public class TestSteam : MonoBehaviour {
                 {
                     Debug.Log(friendName + " is " + friendState);
 
-                    //if (friendName.Contains("[NoSound]Mysterisk"))
-                    //{
-                    //    SteamFriends.InviteUserToGame(friendSteamId, "Haha");
-                    //    Debug.Log("Set invite to:" + friendName);
-                    //}
+                    if (friendName.Contains("[NoSound]Mysterisk"))
+                    {
+                        SteamFriends.InviteUserToGame(friendSteamId, "Haha");
+                        Debug.Log("Set invite to:" + friendName);
+                    }
                 }
 
 
                 FriendGameInfo_t tinfo;
                 if (SteamFriends.GetFriendGamePlayed(friendSteamId, out tinfo))
                 {
-                    //CGameID gID = tinfo.m_gameID;
-
-                    //SteamGameServer.get
-
-
+                    CGameID gID = tinfo.m_gameID;
+                    
                 }
 
             }
@@ -66,6 +64,7 @@ public class TestSteam : MonoBehaviour {
 
     private void JoinRequest(GameRichPresenceJoinRequested_t param)
     {
+        
         Debug.Log(param.m_rgchConnect);
         Debug.Log("Recvd invite");
     }
@@ -106,6 +105,40 @@ public class TestSteam : MonoBehaviour {
 
 
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            int friendCount = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+            Debug.Log("[STEAM-FRIENDS] Listing " + " Friends.");
+            for (int i = 0; i < friendCount; ++i)
+            {
+                CSteamID friendSteamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+                string friendName = SteamFriends.GetFriendPersonaName(friendSteamId);
+                EPersonaState friendState = SteamFriends.GetFriendPersonaState(friendSteamId);
+                if (friendState != EPersonaState.k_EPersonaStateOffline)
+                {
+                    Debug.Log(friendName + " is " + friendState);
+
+                    //if (friendName.Contains("[NoSound]Mysterisk"))
+                    //{
+                        //SteamFriends.InviteUserToGame(friendSteamId, "Haha");
+                        //Debug.Log("Set invite to:" + friendName);
+                    //}
+                }
+
+
+                FriendGameInfo_t tinfo;
+                if (SteamFriends.GetFriendGamePlayed(friendSteamId, out tinfo))
+                {
+                    //CGameID gID = tinfo.m_gameID;
+
+                    //SteamGameServer.get
+
+
+                }
+
+            }
         }
 
         
