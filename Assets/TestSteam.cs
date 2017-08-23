@@ -44,15 +44,21 @@ public class TestSteam : MonoBehaviour {
                 FriendGameInfo_t tinfo;
                 if (SteamFriends.GetFriendGamePlayed(friendSteamId, out tinfo))
                 {
-                    Debug.Log(friendName + " is " + friendState);
+                    //Debug.Log(friendName + " is " + friendState);
                     CGameID gID = tinfo.m_gameID;
-                    Debug.Log(friendName + " IP:" + tinfo.m_unGameIP + " Port:" + tinfo.m_usQueryPort);
-                    
+                    //Debug.Log(friendName + " IP:" + tinfo.m_unGameIP + " Port:" + tinfo.m_usQueryPort);
+
+
+                    string IP = SteamMatchmaking.GetLobbyData(tinfo.m_steamIDLobby, "IP");
+                    Debug.Log(friendName + " IP received: " + IP);
+
+
                 }
 
             }
 
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
+            
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
             
 
         }
@@ -73,7 +79,25 @@ public class TestSteam : MonoBehaviour {
 
     private void OnLobbyCreated(LobbyCreated_t result)
     {
+        
         Debug.Log("Lobby create result: " + result.m_eResult);
+        CSteamID steamLobbyID = (CSteamID)result.m_ulSteamIDLobby;
+
+
+        if(SteamMatchmaking.SetLobbyData(steamLobbyID, "IP", "127.0.0.1"))
+        {
+            Debug.Log("Broadcast IP");
+        }
+
+
+        if(SteamMatchmaking.SetLobbyJoinable(steamLobbyID, true))
+        {
+            Debug.Log("Lobby set joinable");
+        }
+        else
+        {
+            Debug.Log("Lobby set NOT joinable");
+        }
 
     }
 
