@@ -23,31 +23,90 @@ public class JNetManager : MonoBehaviour {
 
     private void Start()
     {
+        //NetworkTransport.Init();
         
-        if (NetworkServer.Listen(7777))
+
+
+        //byte[] a = new byte[3];
+        //a[0] = 3;
+        //
+        //
+        //if(client.SendBytes(a, 1, 0))
+        //{
+        //    Debug.Log("send succesfull");
+        //}
+        //else
+        //{
+        //    Debug.Log("send fail");
+        //}
+        
+    }
+    bool first = true;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("Listen succesfull");
+            if (NetworkServer.Listen(7777))
+            {
+                Debug.Log("Listen succesfull");
+                NetworkServer.SpawnObjects();
+                
+            }
         }
-        client = new NetworkClient();
-
-        client.Connect("255.255.255.255", 7777);
-
-        byte[] a = new byte[3];
-        a[0] = 3;
-
-        while (client.isConnected == false)
+        if (Input.GetKeyDown(KeyCode.J))
         {
+            client = new NetworkClient();
 
+            client.Connect("127.0.0.1", 7777);
+            
         }
-        if(client.SendBytes(a, 1, 0))
+
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("send succesfull");
+            foreach (var item in NetworkServer.connections)
+            {
+                if (item != null)
+                {
+                    NetworkServer.SetClientNotReady(item);
+                    Debug.Log("SENDING1");
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            foreach (var item in NetworkServer.connections)
+            {
+                if (item != null)
+                {
+                    NetworkServer.SetClientReady(item);
+                    Debug.Log("SENDING2");
+                }
+            }
+        }
+
+
+        if (client != null && client.isConnected)
+        {
+
+            if (first)
+            {
+                first = false;
+                
+
+            }
+            Debug.Log("Connected");
         }
         else
         {
-            Debug.Log("send fail");
+            Debug.Log("Not con");
         }
         
+        Debug.Log( NetworkClient.allClients.Count);
+        Debug.Log(NetworkServer.connections.Count);
+        
+        
+        //Debug.Log(Network.isClient);
     }
 
     //The maximum delay before sending packets on connections

@@ -15,7 +15,7 @@ public class TestSteam : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        return;
+        
         if (SteamManager.Initialized)
         {
             string name = SteamFriends.GetPersonaName();
@@ -28,22 +28,24 @@ public class TestSteam : MonoBehaviour {
                 CSteamID friendSteamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
                 string friendName = SteamFriends.GetFriendPersonaName(friendSteamId);
                 EPersonaState friendState = SteamFriends.GetFriendPersonaState(friendSteamId);
-                if (friendState != EPersonaState.k_EPersonaStateOffline)
-                {
-                    Debug.Log(friendName + " is " + friendState);
+                //if (friendState != EPersonaState.k_EPersonaStateOffline)
+                //{
+                //    Debug.Log(friendName + " is " + friendState);
 
-                    if (friendName.Contains("[NoSound]Mysterisk"))
-                    {
-                        SteamFriends.InviteUserToGame(friendSteamId, "Haha");
-                        Debug.Log("Set invite to:" + friendName);
-                    }
-                }
+                //    if (friendName.Contains("[NoSound]Mysterisk"))
+                //    {
+                //        SteamFriends.InviteUserToGame(friendSteamId, "Haha");
+                //        Debug.Log("Set invite to:" + friendName);
+                //    }
+                //}
 
 
                 FriendGameInfo_t tinfo;
                 if (SteamFriends.GetFriendGamePlayed(friendSteamId, out tinfo))
                 {
+                    Debug.Log(friendName + " is " + friendState);
                     CGameID gID = tinfo.m_gameID;
+                    Debug.Log("IP:" + tinfo.m_unGameIP + " Port:" + tinfo.m_usQueryPort);
                     
                 }
 
