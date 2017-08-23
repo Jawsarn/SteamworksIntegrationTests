@@ -50,7 +50,7 @@ public class TestSteam : MonoBehaviour {
 
 
                     string IP = SteamMatchmaking.GetLobbyData(tinfo.m_steamIDLobby, "IP");
-                    Debug.Log(friendName + " IP received: " + IP);
+                    Debug.Log(friendName +" LobbyID" +  tinfo.m_steamIDLobby + " IP received: " + IP);
 
 
                 }
@@ -83,8 +83,8 @@ public class TestSteam : MonoBehaviour {
         Debug.Log("Lobby create result: " + result.m_eResult);
         CSteamID steamLobbyID = (CSteamID)result.m_ulSteamIDLobby;
 
-
-        if(SteamMatchmaking.SetLobbyData(steamLobbyID, "IP", "127.0.0.1"))
+        Debug.Log("My lobbyID:" + steamLobbyID);
+        if (SteamMatchmaking.SetLobbyData(steamLobbyID, "IP", "127.0.0.1"))
         {
             Debug.Log("Broadcast IP");
         }
