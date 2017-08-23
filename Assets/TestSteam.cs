@@ -12,6 +12,7 @@ public class TestSteam : MonoBehaviour {
 
 
     public Callback<GameRichPresenceJoinRequested_t> m_JoinRequest;
+    protected Callback<LobbyCreated_t> m_lobbyCreated;
 
     // Use this for initialization
     void Start () {
@@ -50,6 +51,10 @@ public class TestSteam : MonoBehaviour {
                 }
 
             }
+
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+            
+
         }
     }
 
@@ -60,9 +65,18 @@ public class TestSteam : MonoBehaviour {
             m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverLayActivated);
             m_NumberOfCurrentPlayers = CallResult<NumberOfCurrentPlayers_t>.Create(OnNumberOfCurrentPlayers);
             m_JoinRequest = Callback<GameRichPresenceJoinRequested_t>.Create(JoinRequest);
-            
+            m_lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+
+
         }
     }
+
+    private void OnLobbyCreated(LobbyCreated_t result)
+    {
+        Debug.Log("Lobby create result: " + result.m_eResult);
+
+    }
+
 
     private void JoinRequest(GameRichPresenceJoinRequested_t param)
     {
