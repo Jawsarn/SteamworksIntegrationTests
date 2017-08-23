@@ -46,13 +46,13 @@ public class TestSteam : MonoBehaviour {
                 {
                     Debug.Log(friendName + " is " + friendState);
                     CGameID gID = tinfo.m_gameID;
-                    Debug.Log("IP:" + tinfo.m_unGameIP + " Port:" + tinfo.m_usQueryPort);
+                    Debug.Log(friendName + " IP:" + tinfo.m_unGameIP + " Port:" + tinfo.m_usQueryPort);
                     
                 }
 
             }
 
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
             
 
         }
